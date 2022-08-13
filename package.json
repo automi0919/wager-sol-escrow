@@ -1,0 +1,35 @@
+{
+  "name": "solana-escrow-multi-tokens",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "creator": "ts-node ts/creator.ts",
+    "competitor": "ts-node ts/competitor.ts",
+    "withdraw": "ts-node ts/withdraw.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olafsnow45/solana-escrow-multi-tokens.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olafsnow45/solana-escrow-multi-tokens/issues"
+  },
+  "homepage": "https://github.com/olafsnow45/solana-escrow-multi-tokens#readme",
+  "dependencies": {
+    "@solana/spl-token": "^0.1.8",
+    "@solana/web3.js": "^1.43.6",
+    "bn.js": "^5.2.1",
+    "buffer-layout": "^1.2.2",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.0"
+  }
+}

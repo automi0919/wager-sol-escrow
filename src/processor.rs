@@ -94,18 +94,27 @@ impl Processor {
         amount: u64,
     ) -> ProgramResult {
 
+        msg!("processing withdraw...");
+        msg!("result : {}", result);
+        msg!("amount : {}", amount);
+
         let account_info_iter = &mut accounts.iter();
 
         let escrow_account = next_account_info(account_info_iter)?;
-        // msg!("Escrow account Pubkey : {}", escrow_account.key );
+        msg!("Escrow account Pubkey : {}", escrow_account.key );
 
         if !escrow_account.is_signer {
             return Err(ProgramError::MissingRequiredSignature);
         }
 
-        let escrow_info = Escrow::unpack(&escrow_account.data.borrow())?;
+        msg!("escrow_info");
+
+        let escrow_info = Escrow::unpack_unchecked(&escrow_account.data.borrow())?;
+
+        msg!("next");
 
         let creator = next_account_info(account_info_iter)?;
+        msg!("creator Pubkey : {}", creator.key );
         
         if escrow_info.creator_pubkey != *creator.key {
             return Err(ProgramError::InvalidAccountData);
@@ -114,6 +123,7 @@ impl Processor {
         let competitor;
         if result == 1 {
             competitor = next_account_info(account_info_iter)?;
+            msg!("competitor Pubkey : {}", competitor.key );
 
             if escrow_info.competitor_pubkey != *competitor.key {
                 return Err(ProgramError::InvalidAccountData);
@@ -121,13 +131,15 @@ impl Processor {
         }
 
         let withdraw_account = next_account_info(account_info_iter)?;
+        msg!("withdraw_account Pubkey : {}", withdraw_account.key );
+
         // msg!("withdraw_account : {}", withdraw_account.key);
         
         if amount != escrow_info.amount {
             return Err(EscrowError::InvalidAmount.into());
         }
 
-        // msg!("Closing the escrow account...");
+        msg!("Closing the escrow account...");
         **withdraw_account.try_borrow_mut_lamports()? = withdraw_account
             .lamports()
             .checked_add(escrow_account.lamports())
